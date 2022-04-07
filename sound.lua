@@ -24,10 +24,10 @@ end
 -- we also store sfxr synth seeds, which are lua numbers, and get converted to audio buffers before they are played
 SOUNDS = {
     -- sfxr_synth seeds
-    --RANDOM1           = load_sound(85363309),
+    RANDOM1           = load_sound(85363309),
 
     -- .ogg files
-    --MAIN_THEME        = load_sound("res/maintheme.ogg")
+    MAIN_THEME        = load_sound("res/maintheme.ogg")
 }
 
 if fail_count > 0 then
