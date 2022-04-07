@@ -1,7 +1,8 @@
 
 local texture_file_prefix = "res/img/"
-
+local bagel = am.texture2d("res/bagel.jpg")
 local fail_count = 0
+
 local function load_texture(filepath)
     local status, texture = pcall(am.texture2d, texture_file_prefix .. filepath)
 
@@ -9,7 +10,7 @@ local function load_texture(filepath)
         return texture
     else
         fail_count = fail_count + 1
-        return am.texture2d("res/bagel.jpg")
+        return bagel
     end
 end
 
