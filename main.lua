@@ -21,10 +21,11 @@ SETTINGS = am.load_state("settings", "json") or {
     sound_on = true
 }
 
+require "conf"
 win = am.window{
     width     = SETTINGS.window_width,
     height    = SETTINGS.window_height,
-    title     = "",
+    title     = title,
     mode      = SETTINGS.fullscreen and "fullscreen" or "windowed",
     resizable = false,
     highdpi   = true,
