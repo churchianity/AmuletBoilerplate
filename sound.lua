@@ -11,7 +11,12 @@ local function load_sound(sound)
 
     elseif t == "string" then
         -- path to a .ogg file. we'll load an audio buffer
-        return am.load_audio(sound_file_prefix .. sound)
+        local buffer = am.load_audio(sound_file_prefix .. sound)
+        if buffer == nil then
+            fail_count = fail_count + 1
+            return fartverb
+        end
+        return buffer
     else
 
         fail_count = fail_count + 1
@@ -31,7 +36,7 @@ SOUNDS = {
 }
 
 if fail_count > 0 then
-    log("failed to load %d sound buffers or sfxr seed\n", fail_count)
+    log("failed to load %d sound buffer(s) or sfxr seed(s)\n", fail_count)
 end
 
 -- note that updating sfx volume does not apply to sfx that have started playing before the update.
