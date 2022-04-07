@@ -1,12 +1,14 @@
 
-function fprofile(f, ...)
-    local t1 = am.current_time()
+function fprofile(get_current_time_f, f, ...)
+    local t1 = get_current_time()
     local result = { f(...) }
-    local time = am.current_time() - t1
-    --log("%f", time)
-    return time, unpack(result)
+    local t2 = get_current_time_f() - t1
+    --log("%f", t2)
+    return t2, unpack(result)
 end
 
+--------------------------------------------------------------------------------
+-- EXTRA MATH FUNCTIONS
 function math.wrapf(float, range)
     return float - range * math.floor(float / range)
 end
@@ -14,6 +16,9 @@ end
 function math.lerp(v1, v2, t)
     return v1 * t + v2 * (1 - t)
 end
+
+--------------------------------------------------------------------------------
+-- EXTRA TABLE FUNCTIONS
 
 -- don't use this with sparse arrays
 function table.rchoice(t)
