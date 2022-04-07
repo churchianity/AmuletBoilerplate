@@ -10,22 +10,21 @@ local RESOLUTION_OPTIONS = {
     { width = 832, height = 624 },
     { width = 800, height = 600 },
 }
-local DEFAULT_RESOLUTION = RESOLUTION_OPTIONS[6]
+local DEFAULT_RESOLUTION = RESOLUTION_OPTIONS[6] -- biggest 4:3 standard resolution which still fits on my macbook screen
 
 SETTINGS = am.load_state("settings", "json") or {
     fullscreen = false,
     window_width = DEFAULT_RESOLUTION.width,
     window_height = DEFAULT_RESOLUTION.height,
-    music_volume = 0.2,
-    sfx_volume = 0.1,
+    track_volume = 0.3,
+    sfx_volume = 0.2,
     sound_on = true
 }
 
-require "conf"
 win = am.window{
     width     = SETTINGS.window_width,
     height    = SETTINGS.window_height,
-    title     = title,
+    title     = "",
     mode      = SETTINGS.fullscreen and "fullscreen" or "windowed",
     resizable = false,
     highdpi   = true,
@@ -49,18 +48,20 @@ require "lib/gui"
 -- other internal dependencies
 --require "src/game"
 
+-- for our common use cases, we like to have an 'always present' scene node attached to the window.
+-- this allows us to play music, and sound effects, which persist/complete even when switching the scene completely,
+-- such as tabbing through menus or slides.
+--
+-- if you want to take advantage of this, when you 'change' the scene, you should call this function with the scene you would like
+-- to switch it too, and (if applicable) the action to run for this scene.
 function switch_context(scene, action)
     if action then
-        win.scene:replace("context", scene:action(action):tag"context")
+        win.scene:replace("__context", scene:action(action):tag"__context")
     else
-        win.scene:replace("context", scene:tag"context")
+        win.scene:replace("__context", scene:tag"__context")
     end
 end
 
-function init()
-end
-
-win.scene = am.group(am.group():tag"context")
-init()
+win.scene = am.group(am.group():tag"__context")
 noglobals()
 
